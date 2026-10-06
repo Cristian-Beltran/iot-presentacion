@@ -27,7 +27,7 @@ npm run export
 
 El panel de la clase 2 usa MQTT.js sobre WSS y también dispone de un modo simulado. La configuración está centralizada en `config/iot-demo.ts`.
 
-La cuenta incluida es didáctica: debe estar restringida por ACL a `sebastian/device/esp32-01/#`, ser revocable y no reutilizarse en producción. Un sitio público expone cualquier credencial incorporada en JavaScript.
+La cuenta incluida es didáctica: debe estar restringida por ACL a `cristian/device/esp32-01/#`, ser revocable y no reutilizarse en producción. Un sitio público expone cualquier credencial incorporada en JavaScript.
 
 ## Prácticas
 

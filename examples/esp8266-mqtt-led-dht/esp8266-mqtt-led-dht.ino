@@ -18,10 +18,10 @@ PubSubClient mqtt(network);
 bool ledOn = false;
 unsigned long lastTelemetry = 0;
 
-const char* TELEMETRY_TOPIC = "sebastian/device/esp8266-01/telemetry";
-const char* STATUS_TOPIC = "sebastian/device/esp8266-01/status";
-const char* CONTROL_TOPIC = "sebastian/device/esp8266-01/control";
-const char* ACK_TOPIC = "sebastian/device/esp8266-01/cmd/ack";
+const char* TELEMETRY_TOPIC = "cristian/device/esp8266-01/telemetry";
+const char* STATUS_TOPIC = "cristian/device/esp8266-01/status";
+const char* CONTROL_TOPIC = "cristian/device/esp8266-01/control";
+const char* ACK_TOPIC = "cristian/device/esp8266-01/cmd/ack";
 
 void onMessage(char*, byte* bytes, unsigned int length) {
   JsonDocument doc;

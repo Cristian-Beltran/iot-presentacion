@@ -14,7 +14,7 @@ const char* MQTT_PASS = "esp32";
 const int SS_PIN = 5;
 const int RST_PIN = 22;
 const char* DEVICE_ID = "esp32-rfid-01";
-const char* TOPIC_ROOT = "sebastian/device/esp32-rfid-01";
+const char* TOPIC_ROOT = "cristian/device/esp32-rfid-01";
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 WiFiClient wifiClient;

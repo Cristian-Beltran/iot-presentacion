@@ -62,11 +62,11 @@ routeAlias: anexo
 ```bash
 # Ver todos los mensajes del dispositivo
 mosquitto_sub -h BROKER -u USER -P PASS \
-  -t 'sebastian/device/esp32-01/#' -v
+  -t 'cristian/device/esp32-01/#' -v
 
 # Encender LED
 mosquitto_pub -h BROKER -u USER -P PASS -q 1 \
-  -t 'sebastian/device/esp32-01/control' \
+  -t 'cristian/device/esp32-01/control' \
   -m '{"command":"SET_LED","value":true,"requestId":"cli-1"}'
 ```
 

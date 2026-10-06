@@ -15,10 +15,10 @@ constexpr uint8_t DHT_PIN = 4;
 constexpr uint8_t DHT_TYPE = DHT22;
 constexpr unsigned long TELEMETRY_EVERY_MS = 5000;
 
-const char* STATUS_TOPIC = "sebastian/device/esp32-01/status";
-const char* TELEMETRY_TOPIC = "sebastian/device/esp32-01/telemetry";
-const char* CONTROL_TOPIC = "sebastian/device/esp32-01/control";
-const char* ACK_TOPIC = "sebastian/device/esp32-01/cmd/ack";
+const char* STATUS_TOPIC = "cristian/device/esp32-01/status";
+const char* TELEMETRY_TOPIC = "cristian/device/esp32-01/telemetry";
+const char* CONTROL_TOPIC = "cristian/device/esp32-01/control";
+const char* ACK_TOPIC = "cristian/device/esp32-01/cmd/ack";
 
 WiFiClient network;
 PubSubClient mqtt(network);

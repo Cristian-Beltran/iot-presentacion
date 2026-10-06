@@ -71,16 +71,16 @@ Tiempo: 5 min. Use la analogía de una estación de radio con cuidado: MQTT tamb
 # El tópico es una dirección semántica
 
 ```text
-sebastian/device/esp32-01/telemetry
-sebastian/device/esp32-01/status
-sebastian/device/esp32-01/control
-sebastian/device/esp32-01/cmd/ack
-sebastian/device/esp32-01/alerts
+cristian/device/esp32-01/telemetry
+cristian/device/esp32-01/status
+cristian/device/esp32-01/control
+cristian/device/esp32-01/cmd/ack
+cristian/device/esp32-01/alerts
 ```
 
 <div class="iot-grid cols-2 mt-5">
-  <div class="iot-card"><h3>+ · un nivel</h3><p><code>sebastian/device/+/telemetry</code></p></div>
-  <div class="iot-card"><h3># · todo lo restante</h3><p><code>sebastian/device/#</code></p></div>
+  <div class="iot-card"><h3>+ · un nivel</h3><p><code>cristian/device/+/telemetry</code></p></div>
+  <div class="iot-card"><h3># · todo lo restante</h3><p><code>cristian/device/#</code></p></div>
 </div>
 
 <div class="callout warn mt-5"><p>El tópico enruta. El payload describe. Evita esconder datos dinámicos importantes dentro de nombres imposibles de autorizar.</p></div>
@@ -187,8 +187,8 @@ Tiempo: 4 min. Explique por qué un while(!connected) infinito puede inutilizar 
 client.setServer(MQTT_HOST, MQTT_PORT);
 client.setCallback(onMessage);
 
-client.subscribe("sebastian/device/esp32-01/control", 1);
-client.publish("sebastian/device/esp32-01/status",
+client.subscribe("cristian/device/esp32-01/control", 1);
+client.publish("cristian/device/esp32-01/status",
                "{\"online\":true}", true);
 ```
 
@@ -339,12 +339,12 @@ def on_message(topic, msg):
 
 client.set_callback(on_message)
 client.connect()
-client.subscribe(b"sebastian/device/esp32-mp-01/control")
+client.subscribe(b"cristian/device/esp32-mp-01/control")
 
 while True:
     client.check_msg()
     payload = json.dumps({"temperatureC": 24.5, "rssi": -60})
-    client.publish(b"sebastian/device/esp32-mp-01/telemetry",
+    client.publish(b"cristian/device/esp32-mp-01/telemetry",
                    payload.encode())
     time.sleep(5)
 ```
@@ -549,7 +549,7 @@ Tiempo: 6 min. Dibuje capas: MQTT → WebSocket → TLS → TCP. Socket.IO tampo
 
 ```ts
 const client = mqtt.connect('wss://broker.example', options)
-client.subscribe('sebastian/device/esp32-01/telemetry')
+client.subscribe('cristian/device/esp32-01/telemetry')
 client.publish(controlTopic, JSON.stringify(command), { qos: 1 })
 ```
 
@@ -571,7 +571,7 @@ Tiempo: 12 min. Pulse Conectar; si no hay acceso al broker active Simulación. O
 
 ---
 
-# Arquitectura reutilizada del proyecto Sebastian
+# Arquitectura reutilizada del proyecto Cristian
 
 <div class="flow">
   <div class="flow-step"><b>Dispositivo</b><small>telemetry · status · alerts</small></div><div class="flow-arrow">→</div>

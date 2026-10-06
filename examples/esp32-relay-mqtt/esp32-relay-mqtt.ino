@@ -11,7 +11,7 @@ const char* MQTT_PASS = "esp32";
 
 const int RELAY_PIN = 26;
 const char* DEVICE_ID = "esp32-relay-01";
-const char* TOPIC_ROOT = "sebastian/device/esp32-relay-01";
+const char* TOPIC_ROOT = "cristian/device/esp32-relay-01";
 
 bool relayState = false;
 

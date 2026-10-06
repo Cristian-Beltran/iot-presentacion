@@ -13,7 +13,7 @@ MQTT_USER = "device"
 MQTT_PASS = "esp32"
 CLIENT_ID = "esp32-micropython-01"
 
-TOPIC_ROOT = b"sebastian/device/esp32-micropython-01"
+TOPIC_ROOT = b"cristian/device/esp32-micropython-01"
 TOPIC_TELEMETRY = TOPIC_ROOT + b"/telemetry"
 TOPIC_STATUS = TOPIC_ROOT + b"/status"
 TOPIC_CONTROL = TOPIC_ROOT + b"/control"

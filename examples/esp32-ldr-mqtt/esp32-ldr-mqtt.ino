@@ -11,7 +11,7 @@ const char* MQTT_PASS = "esp32";
 
 const int LDR_PIN = 34;
 const char* DEVICE_ID = "esp32-ldr-01";
-const char* TOPIC_ROOT = "sebastian/device/esp32-ldr-01";
+const char* TOPIC_ROOT = "cristian/device/esp32-ldr-01";
 
 WiFiClient wifiClient;
 PubSubClient mqtt(wifiClient);

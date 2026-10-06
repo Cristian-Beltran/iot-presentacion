@@ -1,0 +1,163 @@
+[
+  {
+    "id": "mqtt-in-telemetry",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "ESP32 Telemetry",
+    "topic": "sebastian/device/+/telemetry",
+    "qos": "0",
+    "broker": "mqtt-broker",
+    "x": 150,
+    "y": 100,
+    "wires": [["parse-telemetry"]]
+  },
+  {
+    "id": "parse-telemetry",
+    "type": "json",
+    "z": "flow1",
+    "name": "Parse JSON",
+    "x": 350,
+    "y": 100,
+    "wires": [["log-telemetry", "check-threshold"]]
+  },
+  {
+    "id": "log-telemetry",
+    "type": "debug",
+    "z": "flow1",
+    "name": "Log",
+    "active": true,
+    "x": 550,
+    "y": 60
+  },
+  {
+    "id": "check-threshold",
+    "type": "switch",
+    "z": "flow1",
+    "name": "Temp > 30?",
+    "property": "payload.temperatureC",
+    "propertyType": "msg",
+    "rules": [{ "t": "gt", "v": "30", "vt": "num" }],
+    "checkall": "true",
+    "outputs": 1,
+    "x": 550,
+    "y": 140,
+    "wires": [["alert-high-temp"]]
+  },
+  {
+    "id": "alert-high-temp",
+    "type": "function",
+    "z": "flow1",
+    "name": "Build Alert",
+    "func": "msg.payload = {\n  type: 'HIGH_TEMP',\n  deviceId: msg.topic.split('/')[2],\n  temperatureC: msg.payload.temperatureC,\n  timestamp: new Date().toISOString()\n};\nmsg.topic = 'alerts/' + msg.topic.split('/')[2] + '/high-temp';\nreturn msg;",
+    "outputs": 1,
+    "x": 750,
+    "y": 140,
+    "wires": [["mqtt-out-alert"]]
+  },
+  {
+    "id": "mqtt-out-alert",
+    "type": "mqtt out",
+    "z": "flow1",
+    "name": "Publish Alert",
+    "topic": "",
+    "qos": "1",
+    "broker": "mqtt-broker",
+    "x": 950,
+    "y": 140
+  },
+  {
+    "id": "http-in-control",
+    "type": "http in",
+    "z": "flow1",
+    "name": "POST /api/led",
+    "url": "/api/led",
+    "method": "post",
+    "upload": false,
+    "x": 150,
+    "y": 260,
+    "wires": [["build-command"]]
+  },
+  {
+    "id": "build-command",
+    "type": "function",
+    "z": "flow1",
+    "name": "Build MQTT Command",
+    "func": "var deviceId = msg.payload.deviceId || 'esp32-01';\nvar ledOn = msg.payload.on === true;\n\nmsg.payload = {\n  command: 'SET_LED',\n  value: ledOn,\n  requestId: 'nodered-' + Date.now(),\n  timestamp: new Date().toISOString()\n};\nmsg.topic = 'sebastian/device/' + deviceId + '/control';\nmsg._httpRes = msg.res;\nreturn msg;",
+    "outputs": 1,
+    "x": 350,
+    "y": 260,
+    "wires": [["mqtt-out-control"]]
+  },
+  {
+    "id": "mqtt-out-control",
+    "type": "mqtt out",
+    "z": "flow1",
+    "name": "Send Command",
+    "topic": "",
+    "qos": "1",
+    "broker": "mqtt-broker",
+    "x": 550,
+    "y": 260,
+    "wires": [["http-response"]]
+  },
+  {
+    "id": "http-response",
+    "type": "function",
+    "z": "flow1",
+    "name": "HTTP Response",
+    "func": "msg.res = msg._httpRes;\nmsg.payload = { accepted: true, command: 'SET_LED' };\nmsg.statusCode = 202;\nreturn msg;",
+    "outputs": 1,
+    "x": 750,
+    "y": 260,
+    "wires": [["http-out"]]
+  },
+  {
+    "id": "http-out",
+    "type": "http response",
+    "z": "flow1",
+    "name": "202 Accepted",
+    "statusCode": "202",
+    "x": 950,
+    "y": 260
+  },
+  {
+    "id": "mqtt-in-ack",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "Device ACK",
+    "topic": "sebastian/device/+/cmd/ack",
+    "qos": "1",
+    "broker": "mqtt-broker",
+    "x": 150,
+    "y": 380,
+    "wires": [["parse-ack"]]
+  },
+  {
+    "id": "parse-ack",
+    "type": "json",
+    "z": "flow1",
+    "name": "Parse ACK",
+    "x": 350,
+    "y": 380,
+    "wires": [["log-ack"]]
+  },
+  {
+    "id": "log-ack",
+    "type": "debug",
+    "z": "flow1",
+    "name": "ACK Log",
+    "active": true,
+    "x": 550,
+    "y": 380
+  },
+  {
+    "id": "mqtt-broker",
+    "type": "mqtt-broker",
+    "name": "Course Broker",
+    "broker": "localhost",
+    "port": "1883",
+    "clientid": "node-red-local",
+    "username": "device",
+    "password": "esp32"
+  }
+]

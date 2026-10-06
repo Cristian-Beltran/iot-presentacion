@@ -1,0 +1,154 @@
+:root {
+  --iot-bg: #071018;
+  --iot-panel: rgba(15, 31, 43, 0.88);
+  --iot-panel-soft: rgba(18, 43, 55, 0.62);
+  --iot-line: rgba(94, 234, 212, 0.22);
+  --iot-cyan: #5eead4;
+  --iot-blue: #38bdf8;
+  --iot-green: #a3e635;
+  --iot-amber: #fbbf24;
+  --iot-red: #fb7185;
+  --iot-text: #e6f2f7;
+  --iot-muted: #93aebd;
+}
+
+.slidev-layout {
+  color: var(--iot-text);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(56, 189, 248, .14), transparent 31%),
+    radial-gradient(circle at 8% 92%, rgba(94, 234, 212, .09), transparent 34%),
+    linear-gradient(rgba(94, 234, 212, .028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 234, 212, .028) 1px, transparent 1px),
+    var(--iot-bg);
+  background-size: auto, auto, 32px 32px, 32px 32px, auto;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  padding: 3.1rem 4.6rem;
+}
+
+.slidev-layout h1 {
+  color: white;
+  font-size: 2.65rem;
+  font-weight: 760;
+  letter-spacing: -.045em;
+  line-height: 1.02;
+  margin-bottom: 1.15rem;
+}
+
+.slidev-layout h2 {
+  color: var(--iot-cyan);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.slidev-layout h3 { color: #fff; }
+.slidev-layout p, .slidev-layout li { line-height: 1.48; }
+.slidev-layout strong { color: white; }
+.slidev-layout a { color: var(--iot-cyan); border-bottom-color: rgba(94, 234, 212, .4); }
+.slidev-layout code { font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace; }
+.slidev-layout pre { border: 1px solid rgba(94, 234, 212, .16); border-radius: 14px; }
+
+.cover {
+  background:
+    radial-gradient(circle at 75% 42%, rgba(56, 189, 248, .2), transparent 24%),
+    radial-gradient(circle at 68% 55%, rgba(163, 230, 53, .12), transparent 34%),
+    var(--iot-bg);
+}
+.cover h1 { font-size: 4.3rem; max-width: 850px; }
+.cover .subtitle { color: var(--iot-muted); font-size: 1.35rem; max-width: 760px; }
+.eyebrow { color: var(--iot-cyan); font-size: .78rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+.accent { color: var(--iot-cyan); }
+.muted { color: var(--iot-muted); }
+.tiny { font-size: .68rem; color: var(--iot-muted); }
+.small { font-size: .82rem; }
+.lead { font-size: 1.25rem; color: #bdd3dd; max-width: 950px; }
+
+.iot-grid { display: grid; gap: 1rem; }
+.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.span-2 { grid-column: span 2; }
+.v-center { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+
+.iot-card {
+  background: linear-gradient(145deg, rgba(18, 43, 55, .78), rgba(10, 24, 34, .78));
+  border: 1px solid rgba(94, 234, 212, .18);
+  border-radius: 18px;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, .18);
+}
+.iot-card h3 { font-size: 1.03rem; margin: 0 0 .35rem; }
+.iot-card p { margin: 0; color: #a8c0cc; font-size: .86rem; }
+.iot-card.cyan { border-color: rgba(94, 234, 212, .42); }
+.iot-card.blue { border-color: rgba(56, 189, 248, .42); }
+.iot-card.green { border-color: rgba(163, 230, 53, .42); }
+.iot-card.amber { border-color: rgba(251, 191, 36, .42); }
+.iot-card.red { border-color: rgba(251, 113, 133, .42); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: .38rem;
+  border: 1px solid rgba(94, 234, 212, .24);
+  border-radius: 999px; padding: .28rem .62rem;
+  color: #cde2e9; background: rgba(10, 24, 34, .72);
+  font-size: .72rem; font-weight: 650;
+}
+.chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--iot-cyan); }
+.chip.green::before { background: var(--iot-green); }
+.chip.amber::before { background: var(--iot-amber); }
+
+.flow { display: flex; align-items: stretch; gap: .55rem; margin-top: 1.1rem; }
+.flow-step {
+  flex: 1; min-width: 0; border: 1px solid rgba(56, 189, 248, .25);
+  border-radius: 16px; padding: .85rem .65rem; text-align: center;
+  background: rgba(12, 29, 41, .84);
+}
+.flow-step .icon { display: block; font-size: 1.6rem; margin-bottom: .38rem; }
+.flow-step b { font-size: .86rem; }
+.flow-step small { display: block; color: var(--iot-muted); margin-top: .2rem; font-size: .68rem; }
+.flow-arrow { align-self: center; color: var(--iot-cyan); font-size: 1.4rem; }
+
+.metric { font-size: 2rem; font-weight: 800; color: white; line-height: 1; }
+.metric-label { color: var(--iot-muted); font-size: .72rem; margin-top: .35rem; text-transform: uppercase; letter-spacing: .08em; }
+.rule { height: 1px; background: linear-gradient(90deg, var(--iot-line), transparent); margin: .8rem 0; }
+
+.compare { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .74rem; }
+.compare th { color: var(--iot-cyan); font-weight: 700; text-align: left; padding: .55rem .65rem; border-bottom: 1px solid var(--iot-line); }
+.compare td { padding: .5rem .65rem; border-bottom: 1px solid rgba(147, 174, 189, .11); color: #c8dbe3; }
+.compare tr:last-child td { border-bottom: 0; }
+.compare .yes { color: var(--iot-green); }
+.compare .warn { color: var(--iot-amber); }
+
+.callout { border-left: 4px solid var(--iot-cyan); background: rgba(56, 189, 248, .08); padding: .72rem 1rem; border-radius: 0 12px 12px 0; }
+.callout.warn { border-left-color: var(--iot-amber); background: rgba(251, 191, 36, .08); }
+.callout.danger { border-left-color: var(--iot-red); background: rgba(251, 113, 133, .08); }
+.callout p { margin: 0; }
+
+.section-number { font-size: 8rem; font-weight: 900; color: rgba(94, 234, 212, .08); position: absolute; right: 4rem; bottom: 1rem; }
+.section-slide h1 { font-size: 4rem; max-width: 880px; }
+.section-slide p { font-size: 1.15rem; color: var(--iot-muted); max-width: 760px; }
+
+.terminal { background: #02070b; border: 1px solid rgba(94, 234, 212, .22); border-radius: 15px; padding: .8rem 1rem; font-family: ui-monospace, monospace; font-size: .75rem; color: #cde2e9; }
+.terminal .prompt { color: var(--iot-green); }
+
+.image-placeholder {
+  min-height: 230px; border: 1px dashed rgba(94, 234, 212, .32); border-radius: 18px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  color: var(--iot-muted); background: rgba(10, 24, 34, .5); padding: 1rem;
+}
+
+.timeline { display: grid; grid-template-columns: 80px 1fr; gap: .5rem .9rem; align-items: start; }
+.timeline .time { color: var(--iot-cyan); font-weight: 800; }
+.timeline .event { border-left: 1px solid var(--iot-line); padding: 0 0 .75rem 1rem; }
+.kbd { border: 1px solid rgba(147,174,189,.3); background: rgba(255,255,255,.05); padding: .1rem .35rem; border-radius: 5px; font-family: ui-monospace, monospace; font-size: .7rem; }
+
+.slidev-layout::after {
+  content: "UNIVALLE · IOT";
+  position: absolute; right: 2rem; bottom: 1.1rem;
+  color: rgba(147, 174, 189, .45); font-size: .55rem; font-weight: 800; letter-spacing: .14em;
+}
+.slidev-layout.cover::after, .slidev-layout.section-slide::after { color: rgba(147,174,189,.3); }
+
+@media (max-width: 900px) {
+  .slidev-layout { padding: 2.4rem 3rem; }
+  .cover h1 { font-size: 3.3rem; }
+}

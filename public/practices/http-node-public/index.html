@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Telemetría HTTP</title>
+<style>body{font:18px system-ui;max-width:700px;margin:40px auto;padding:0 18px;background:#071018;color:#e6f2f7}pre{padding:20px;background:#102532;border-radius:14px}button{padding:12px 18px;border-radius:9px;border:1px solid #5eead4;background:#164e50;color:white;font-size:18px;cursor:pointer}</style>
+<h1>Telemetría HTTP</h1><p>Estado LED: <b id="led">--</b></p><button onclick="toggle()">Cambiar LED</button><h2>Último dato del ESP32</h2><pre id="data">Esperando datos…</pre>
+<script>
+async function refresh(){try{const r=await fetch('/api/telemetry/latest');data.textContent=JSON.stringify(await r.json(),null,2);const c=await fetch('/api/control');led.textContent=(await c.json()).ledOn?'ENCENDIDO':'APAGADO'}catch{data.textContent='El ESP32 aún no envió datos'}}
+async function toggle(){await fetch('/api/control/toggle',{method:'POST'});refresh()}
+refresh();setInterval(refresh,3000)
+</script></html>

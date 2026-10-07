@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel MQTT del aula</title>
+<style>
+  body{font-family:system-ui;max-width:720px;margin:40px auto;padding:0 18px;background:#071018;color:#e6f2f7}
+  input,button{font:inherit;padding:10px;border-radius:9px;border:1px solid #5eead4}
+  input{background:#102734;color:white;width:250px} button{background:#5eead4;color:#05202a;font-weight:800;cursor:pointer}
+  .card{margin-top:18px;padding:18px;border:1px solid #275565;border-radius:14px;background:#10202c}.value{font-size:1.5rem;font-weight:800;color:#a3e635}
+</style>
+<h1>Panel MQTT del aula</h1>
+<p>Escribe la IP de la PC que ejecuta Mosquitto. El puerto WebSocket es <b>9001</b>.</p>
+<input id="host" value="192.168.1.10" aria-label="IP del broker">
+<button onclick="connect()">Conectar</button>
+<p id="status">Sin conexión</p>
+<div class="card"><div>Temperatura: <span class="value" id="temp">--</span> °C</div><div>Humedad: <span class="value" id="humidity">--</span> %</div><div>LED: <span class="value" id="led">--</span></div></div>
+<p><button onclick="send('ON')">Encender LED</button> <button onclick="send('OFF')">Apagar LED</button></p>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script>
+  const telemetry = 'clase/esp32-01/telemetry';
+  const control = 'clase/esp32-01/control';
+  let client;
+  function connect() {
+    const host = document.querySelector('#host').value.trim();
+    client = mqtt.connect(`ws://${host}:9001`);
+    client.on('connect', () => { status.textContent = 'Conectado al broker'; client.subscribe(telemetry); });
+    client.on('error', () => status.textContent = 'No se pudo conectar: revisa IP, Mosquitto y puerto 9001');
+    client.on('message', (_, message) => {
+      const data = JSON.parse(message.toString());
+      temp.textContent = data.temperatureC;
+      humidity.textContent = data.humidityPct;
+      led.textContent = data.ledOn ? 'ENCENDIDO' : 'APAGADO';
+    });
+  }
+  function send(command) {
+    if (!client || !client.connected) return alert('Primero conecta al broker');
+    client.publish(control, command);
+  }
+</script>
+</html>

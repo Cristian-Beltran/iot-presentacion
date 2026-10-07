@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Control de brazo MQTT</title>
+<style>body{font:17px system-ui;max-width:720px;margin:35px auto;padding:0 18px;background:#071018;color:#e6f2f7}input,button{font:inherit;padding:9px;border-radius:8px;border:1px solid #5eead4}input{background:#102734;color:white}button{background:#5eead4;color:#05202a;font-weight:800;margin:4px}.card{margin:16px 0;padding:16px;border:1px solid #275565;border-radius:14px}label{display:block;margin:10px 0}label input{width:280px;padding:0}</style>
+<h1>Control del brazo</h1><p>Conecta a un broker MQTT por WebSocket y controla cuatro servos.</p>
+<input id="host" placeholder="broker.example.com"><input id="user" placeholder="usuario"><input id="pass" type="password" placeholder="clave"><button onclick="connect()">Conectar</button><p id="status">Sin conexión</p>
+<div class="card"><h2>Poses</h2><button onclick="pose('inicio')">Inicio</button><button onclick="pose('bajar')">Bajar</button><button onclick="pose('tomar')">Tomar</button><button onclick="pose('soltar')">Soltar</button></div>
+<div class="card"><h2>Ángulos manuales</h2><label>Base <input id="base" type="range" min="0" max="180" value="90" oninput="joint('base',this.value)"></label><label>Hombro <input id="hombro" type="range" min="0" max="180" value="90" oninput="joint('hombro',this.value)"></label><label>Codo <input id="codo" type="range" min="0" max="180" value="90" oninput="joint('codo',this.value)"></label><label>Garra <input id="garra" type="range" min="0" max="180" value="40" oninput="joint('garra',this.value)"></label></div>
+<pre id="state">Estado: esperando</pre>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script><script>
+const CONTROL='cristian/robot-arm/robot-arm-01/control', STATUS='cristian/robot-arm/robot-arm-01/status';let client;
+function connect(){client=mqtt.connect(`wss://${host.value}:443`,{username:user.value,password:pass.value});client.on('connect',()=>{status.textContent='Conectado';client.subscribe(STATUS)});client.on('message',(_,m)=>state.textContent=m.toString());client.on('error',()=>status.textContent='Error: revisa host, usuario y clave')}
+function send(data){if(!client?.connected)return alert('Primero conecta al broker');client.publish(CONTROL,JSON.stringify(data))}function pose(name){send({pose:name})}function joint(name,angle){send({joint:name,angle:Number(angle)})}
+</script></html>

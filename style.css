@@ -23,11 +23,24 @@
   background-size: auto, auto, 32px 32px, 32px 32px, auto;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   padding: 3.1rem 4.6rem;
+  position: relative;
+  overflow: hidden;
 }
+
+.slidev-layout::before {
+  content: '';
+  position: absolute;
+  inset: auto -8% -13% auto;
+  width: 52%; height: 52%;
+  background: url('/images/iot-connection-map.png') center / contain no-repeat;
+  opacity: .075;
+  pointer-events: none;
+}
+.slidev-layout > * { position: relative; z-index: 1; }
 
 .slidev-layout h1 {
   color: white;
-  font-size: 2.65rem;
+  font-size: 3.05rem;
   font-weight: 760;
   letter-spacing: -.045em;
   line-height: 1.02;
@@ -42,7 +55,7 @@
 }
 
 .slidev-layout h3 { color: #fff; }
-.slidev-layout p, .slidev-layout li { line-height: 1.48; }
+.slidev-layout p, .slidev-layout li { line-height: 1.5; font-size: 1.12rem; }
 .slidev-layout strong { color: white; }
 .slidev-layout a { color: var(--iot-cyan); border-bottom-color: rgba(94, 234, 212, .4); }
 .slidev-layout code { font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace; }
@@ -55,13 +68,13 @@
     var(--iot-bg);
 }
 .cover h1 { font-size: 4.3rem; max-width: 850px; }
-.cover .subtitle { color: var(--iot-muted); font-size: 1.35rem; max-width: 760px; }
+.cover .subtitle { color: var(--iot-muted); font-size: 1.55rem; max-width: 760px; }
 .eyebrow { color: var(--iot-cyan); font-size: .78rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
 .accent { color: var(--iot-cyan); }
 .muted { color: var(--iot-muted); }
 .tiny { font-size: .68rem; color: var(--iot-muted); }
 .small { font-size: .82rem; }
-.lead { font-size: 1.25rem; color: #bdd3dd; max-width: 950px; }
+.lead { font-size: 1.45rem; color: #bdd3dd; max-width: 950px; }
 
 .iot-grid { display: grid; gap: 1rem; }
 .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -77,8 +90,8 @@
   padding: 1rem 1.1rem;
   box-shadow: 0 16px 45px rgba(0, 0, 0, .18);
 }
-.iot-card h3 { font-size: 1.03rem; margin: 0 0 .35rem; }
-.iot-card p { margin: 0; color: #a8c0cc; font-size: .86rem; }
+.iot-card h3 { font-size: 1.25rem; margin: 0 0 .35rem; }
+.iot-card p { margin: 0; color: #a8c0cc; font-size: 1rem; }
 .iot-card.cyan { border-color: rgba(94, 234, 212, .42); }
 .iot-card.blue { border-color: rgba(56, 189, 248, .42); }
 .iot-card.green { border-color: rgba(163, 230, 53, .42); }
@@ -135,6 +148,49 @@
   display: flex; align-items: center; justify-content: center; text-align: center;
   color: var(--iot-muted); background: rgba(10, 24, 34, .5); padding: 1rem;
 }
+.media-panel { min-height: 235px; overflow: hidden; border-radius: 20px; position: relative; border: 1px solid rgba(94,234,212,.24); background: #102734; }
+.media-panel img { width:100%; height:100%; min-height:235px; object-fit:cover; display:block; opacity:.82; }
+.media-panel .media-label { position:absolute; left:1rem; right:1rem; bottom:1rem; padding:.65rem .8rem; border-radius:12px; background:rgba(4,14,21,.84); color:white; font-weight:800; font-size:1rem; }
+.diagram-panel { position:relative; min-height:310px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(94,234,212,.3); border-radius:22px; background:linear-gradient(145deg,rgba(8,29,42,.96),rgba(10,19,30,.96)); }
+.diagram-panel img { width:100%; height:310px; object-fit:contain; display:block; }
+.diagram-panel span { position:absolute; left:1rem; right:1rem; bottom:1rem; padding:.55rem .8rem; background:rgba(4,14,21,.82); border-radius:10px; color:#d9fbf7; font-size:.9rem; font-weight:750; }
+.network-diagram,.practice-diagram { min-height:260px; display:flex; align-items:center; justify-content:center; gap:clamp(.6rem,2vw,1.4rem); padding:1.1rem; border-radius:24px; border:1px solid rgba(94,234,212,.21); background:radial-gradient(circle at 50% 50%,rgba(56,189,248,.12),transparent 48%),rgba(7,21,31,.72); }
+.practice-diagram { min-height:285px; }
+.device { width:155px; min-height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; border:1px solid rgba(94,234,212,.4); border-radius:50%; background:linear-gradient(145deg,rgba(22,58,72,.95),rgba(8,22,34,.98)); box-shadow:0 0 0 10px rgba(94,234,212,.05),0 15px 32px rgba(0,0,0,.22); }
+.device i { width:54px; height:40px; display:grid; place-items:center; margin-bottom:.45rem; color:#071018; font-style:normal; font-weight:900; font-size:.92rem; border-radius:10px; background:var(--iot-cyan); }
+.device b { color:#fff; font-size:.92rem; line-height:1.15; }.device small { max-width:120px; color:#a8c0cc; font-size:.67rem; line-height:1.25; margin-top:.33rem; }
+.device.board { border-color:rgba(56,189,248,.7); }.device.board i { background:var(--iot-blue); }.device.sensor { border-color:rgba(163,230,53,.65); }.device.sensor i { background:var(--iot-green); }.device.laptop { border-color:rgba(251,191,36,.65); }.device.laptop i { background:var(--iot-amber); }.device.server { border-color:rgba(196,181,253,.7); }.device.server i { background:#c4b5fd; }.device.router { border-color:rgba(251,113,133,.7); }.device.router i { background:var(--iot-red); }
+.diagram-link { min-width:88px; position:relative; color:var(--iot-cyan); text-align:center; font-weight:850; font-size:.82rem; line-height:1.12; }
+.diagram-link::before,.diagram-link::after { content:''; position:absolute; top:50%; width:42px; border-top:2px solid currentColor; }.diagram-link::before { right:calc(100% + .35rem); }.diagram-link::after { left:calc(100% + .35rem); }.diagram-link em { display:block; color:var(--iot-muted); font-style:normal; font-size:.64rem; font-weight:600; margin-top:.2rem; }.diagram-link.bidirectional { color:var(--iot-green); }
+.connection-options { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; align-items:start; max-width:920px; margin:3rem auto 0; text-align:center; }
+.connection-options > div { position:relative; padding:1.2rem .8rem; }.connection-options > div:not(:last-child)::after { content:'›'; position:absolute; right:-1.2rem; top:2rem; color:var(--iot-cyan); font-size:2.8rem; font-weight:200; }.connection-options b,.connection-options small { display:block; }.connection-options b { color:#fff; font-size:1.2rem; margin-top:.5rem; }.connection-options small { color:var(--iot-muted); font-size:.85rem; margin-top:.3rem; }.radio-symbol { width:95px; height:95px; margin:auto; display:grid; place-items:center; border-radius:50%; border:2px solid currentColor; font-size:3rem; font-weight:800; box-shadow:0 0 0 12px rgba(94,234,212,.06); }.radio-symbol.wifi { color:var(--iot-cyan); }.radio-symbol.bluetooth { color:var(--iot-green); }.radio-symbol.direct { color:var(--iot-amber); }
+.hero-photo { position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; opacity:.22; mix-blend-mode:screen; pointer-events:none; }
+.slidev-layout.cover > :not(.hero-photo) { position:relative; z-index:1; }
+
+/* Diagramas grandes para el hilo conductor del brazo robótico. */
+.robot-stage { min-height: 310px; display: grid; place-items: center; position: relative; overflow: hidden; }
+.robot-arm { position: relative; width: 520px; height: 310px; filter: drop-shadow(0 16px 24px rgba(0,0,0,.28)); }
+.robot-base { position: absolute; left: 37px; bottom: 28px; width: 118px; height: 40px; border-radius: 55% 55% 18px 18px; background: linear-gradient(145deg,#38bdf8,#0f4c70); border: 2px solid #7dd3fc; }
+.robot-link { position: absolute; height: 34px; border-radius: 999px; transform-origin: left center; background: linear-gradient(180deg,#c9f4ff,#38bdf8 48%,#14678f); border: 2px solid #a5f3fc; }
+.robot-link.base { left: 110px; bottom: 62px; width: 145px; transform: rotate(-56deg); }
+.robot-link.shoulder { left: 190px; bottom: 183px; width: 146px; transform: rotate(32deg); }
+.robot-link.elbow { left: 311px; bottom: 110px; width: 114px; transform: rotate(-54deg); }
+.joint { position: absolute; width: 49px; height: 49px; border-radius: 50%; display: grid; place-items: center; font-size: .72rem; font-weight: 850; color:#071018; border: 3px solid #ecfeff; background: var(--iot-green); box-shadow: 0 0 0 8px rgba(163,230,53,.13); }
+.joint.base { left: 92px; bottom: 52px; }.joint.shoulder { left: 169px; bottom: 163px; }.joint.elbow { left: 293px; bottom: 91px; }.joint.gripper { left: 408px; bottom: 176px; background: var(--iot-amber); box-shadow: 0 0 0 8px rgba(251,191,36,.13); }
+.gripper { position:absolute; left:446px; bottom:160px; width:48px; height:60px; }
+.gripper::before,.gripper::after { content:''; position:absolute; width:13px; height:46px; border:5px solid var(--iot-amber); border-left:0; border-radius:0 20px 20px 0; }
+.gripper::before { transform:rotate(-24deg); top:0; }.gripper::after { transform:rotate(24deg); bottom:0; }
+.robot-label { position:absolute; border:1px solid rgba(94,234,212,.35); border-radius:999px; padding:.32rem .62rem; color:#d9fbf7; background:rgba(7,16,24,.88); font-size:.78rem; font-weight:750; }
+.robot-label.base { left:2px; bottom:4px; }.robot-label.shoulder { left:122px; top:18px; }.robot-label.elbow { right:105px; top:84px; }.robot-label.gripper { right:0; bottom:43px; }
+.visual-flow { display:flex; align-items:center; justify-content:center; gap:1rem; margin-top:1.3rem; min-height:180px; padding:1rem; border-radius:24px; background:radial-gradient(circle at 50% 50%,rgba(56,189,248,.1),transparent 50%),rgba(7,21,31,.54); border:1px solid rgba(94,234,212,.17); }
+.visual-node { min-width:155px; min-height:118px; padding:1rem; border-radius:50%; display:grid; place-items:center; text-align:center; background:linear-gradient(145deg,rgba(22,58,72,.94),rgba(8,22,34,.98)); border:1px solid rgba(94,234,212,.42); box-shadow:0 0 0 8px rgba(94,234,212,.04); color:white; font-size:1.05rem; font-weight:800; }
+.visual-node span { display:block; color:var(--iot-muted); font-size:.76rem; font-weight:500; margin-top:.35rem; }.visual-arrow { color:var(--iot-cyan); font-size:2.4rem; text-shadow:0 0 16px rgba(94,234,212,.45); }
+.pose-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:1.3rem; }.pose { border:1px solid var(--iot-line); border-radius:18px; padding:1rem; text-align:center; background:rgba(12,29,41,.75); }.pose .pose-icon { display:block; font-size:3rem; margin-bottom:.45rem; }.pose b { font-size:1.1rem; }.pose small { display:block; color:var(--iot-muted); margin-top:.22rem; }
+.big-code pre { font-size:1.05rem; line-height:1.55; padding:1.1rem; }
+.full-source h1 { font-size: 2.1rem; margin-bottom: .45rem; }
+.full-source pre { max-height: 440px; overflow: auto; font-size: .47rem; line-height: 1.18; padding: .7rem; }
+.download-link { display:inline-flex; margin-top:.65rem; padding:.45rem .7rem; border-radius:9px; border:1px solid rgba(94,234,212,.35); background:rgba(16,47,54,.8); color:#d9fbf7; font-size:.85rem; font-weight:750; }
+.browser-preview { max-width:940px; margin:1.5rem auto 0; overflow:hidden; border:1px solid rgba(94,234,212,.38); border-radius:18px; background:#eef7f8; color:#102734; box-shadow:0 18px 50px rgba(0,0,0,.28); }.browser-bar { height:42px; display:flex; align-items:center; gap:.45rem; padding:0 1rem; color:#40606d; background:#d9ebef; font-size:.85rem; }.browser-bar span { width:11px; height:11px; border-radius:50%; background:#fb7185; }.browser-bar span:nth-child(2){background:#fbbf24}.browser-bar span:nth-child(3){background:#a3e635}.browser-bar b{margin-left:1rem}.browser-content { display:grid; grid-template-columns:1.15fr 1fr; gap:1.5rem; padding:1.5rem 2rem 1.8rem; }.browser-content h2 { color:#102734; margin-top:0; }.browser-content button { border:0; border-radius:9px; padding:.65rem .8rem; margin:.2rem; background:#0f766e; color:white; font-weight:800; }.arm-values { display:grid; grid-template-columns:80px 1fr; align-items:center; gap:.7rem; }.arm-values input { accent-color:#0f766e; }
 
 .timeline { display: grid; grid-template-columns: 80px 1fr; gap: .5rem .9rem; align-items: start; }
 .timeline .time { color: var(--iot-cyan); font-weight: 800; }
@@ -144,11 +200,12 @@
 .slidev-layout::after {
   content: "UNIVALLE · IOT";
   position: absolute; right: 2rem; bottom: 1.1rem;
-  color: rgba(147, 174, 189, .45); font-size: .55rem; font-weight: 800; letter-spacing: .14em;
+  color: rgba(147, 174, 189, .45); font-size: .55rem; font-weight: 800; letter-spacing: .14em; z-index: 2;
 }
 .slidev-layout.cover::after, .slidev-layout.section-slide::after { color: rgba(147,174,189,.3); }
 
 @media (max-width: 900px) {
   .slidev-layout { padding: 2.4rem 3rem; }
   .cover h1 { font-size: 3.3rem; }
+  .network-diagram,.practice-diagram,.visual-flow { gap:.4rem; }.device { width:125px; min-height:125px; }.diagram-link { min-width:54px; }.connection-options { gap:.8rem; }
 }

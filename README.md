@@ -1,6 +1,6 @@
-# IoT: del hardware a aplicaciones web
+# IoT: conexión entre hardware y software
 
-Presentación Slidev en español para dos clases de dos horas sobre ESP32, ESP8266, HTTP, WebSocket, MQTT, servicios locales/nube y Raspberry Pi.
+Presentación Slidev en español para dos clases de dos horas sobre conexión inalámbrica entre hardware y software. Cubre ESP32, Wi‑Fi, HTTP, MQTT, Mosquitto y WebSockets; el brazo robótico educativo aparece como proyecto final.
 
 ## Ejecutar la presentación
 
@@ -25,7 +25,7 @@ npm run export
 
 ## Demostración MQTT
 
-El panel de la clase 2 usa MQTT.js sobre WSS y también dispone de un modo simulado. La configuración está centralizada en `config/iot-demo.ts`.
+El panel de la clase 2 monitorea y controla el ESP32 mediante MQTT.js sobre WSS; también dispone de un modo simulado. La configuración está centralizada en `config/iot-demo.ts`.
 
 La cuenta incluida es didáctica: debe estar restringida por ACL a `cristian/device/esp32-01/#`, ser revocable y no reutilizarse en producción. Un sitio público expone cualquier credencial incorporada en JavaScript.
 
@@ -34,8 +34,8 @@ La cuenta incluida es didáctica: debe estar restringida por ACL a `cristian/dev
 Consulta `examples/README.md` para ejecutar:
 
 - ESP32 como servidor y cliente HTTP.
-- ESP32/ESP8266 con MQTT, DHT y LED.
-- APIs locales Node/Express y Python/Flask.
+- ESP32 con MQTT para telemetría y control.
+- Brazo robótico como proyecto final.
 - Mosquitto local con TCP y WebSocket.
 
 Las imágenes son opcionales. Si se agregan, sus nombres esperados aparecen al final del anexo de la presentación.

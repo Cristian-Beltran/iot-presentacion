@@ -209,3 +209,129 @@
   .cover h1 { font-size: 3.3rem; }
   .network-diagram,.practice-diagram,.visual-flow { gap:.4rem; }.device { width:125px; min-height:125px; }.diagram-link { min-width:54px; }.connection-options { gap:.8rem; }
 }
+
+/* Proyección: tema claro, alto contraste y elementos legibles a distancia. */
+:root {
+  --iot-bg: #f6fafc;
+  --iot-panel: rgba(255, 255, 255, .96);
+  --iot-panel-soft: rgba(230, 245, 247, .9);
+  --iot-line: rgba(13, 116, 130, .25);
+  --iot-cyan: #087a89;
+  --iot-blue: #1269a8;
+  --iot-green: #387a17;
+  --iot-amber: #a45a00;
+  --iot-red: #b42346;
+  --iot-text: #102734;
+  --iot-muted: #45636f;
+}
+
+.slidev-layout {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(56, 189, 248, .15), transparent 31%),
+    radial-gradient(circle at 8% 92%, rgba(20, 184, 166, .10), transparent 34%),
+    linear-gradient(rgba(13, 116, 130, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 116, 130, .035) 1px, transparent 1px),
+    var(--iot-bg);
+}
+.slidev-layout h1 { color: #102734; font-size: 3.55rem; }
+.slidev-layout h2 { font-size: 1.65rem; }
+.slidev-layout h3, .slidev-layout strong { color: #102734; }
+.slidev-layout p, .slidev-layout li { font-size: 1.38rem; }
+.slidev-layout pre { border-color: rgba(13, 116, 130, .24); background: #f8fcfd; color: #16343d; }
+.cover h1 { font-size: 5rem; max-width: 950px; }
+.cover .subtitle { font-size: 1.85rem; max-width: 860px; }
+.eyebrow { font-size: .95rem; }
+.tiny { font-size: .82rem; }
+.small { font-size: 1rem; }
+.lead { font-size: 1.7rem; color: #31525e; max-width: 1020px; }
+.section-slide h1 { font-size: 4.7rem; max-width: 980px; }
+.section-slide p { font-size: 1.5rem; max-width: 880px; }
+
+.iot-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.99), rgba(231,247,249,.94));
+  border-color: rgba(13, 116, 130, .24);
+  box-shadow: 0 12px 30px rgba(31, 79, 89, .12);
+}
+.iot-card h3 { font-size: 1.5rem; }
+.iot-card p { color: #31525e; font-size: 1.2rem; }
+.chip { color: #17424d; background: rgba(255,255,255,.9); font-size: .88rem; }
+.metric { font-size: 2.5rem; color: #102734; }
+.compare { font-size: .96rem; }
+.compare td { color: #31525e; }
+.callout { border-left-width: 5px; padding: .9rem 1.2rem; }
+.terminal { background: #f8fcfd; border-color: rgba(13,116,130,.28); padding: 1rem 1.2rem; font-size: .95rem; color: #16343d; }
+.media-panel { min-height: 255px; border-color: rgba(13,116,130,.28); background: #dceef1; }
+.media-panel .media-label { background: rgba(255,255,255,.93); border: 1px solid rgba(13,116,130,.2); color: #16343d; font-size: 1.15rem; }
+
+/* Diagramas más grandes y centrados dentro de la diapositiva. */
+.diagram-panel {
+  min-height: 390px;
+  border-color: rgba(13,116,130,.3);
+  background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(224,244,247,.96));
+}
+.diagram-panel img { height: 390px; }
+.diagram-panel span { background: rgba(255,255,255,.94); border: 1px solid rgba(13,116,130,.2); color: #16343d; font-size: 1.1rem; }
+.network-diagram, .practice-diagram {
+  min-height: 390px;
+  max-width: 1120px;
+  margin: 2.1rem auto 0;
+  gap: clamp(1rem, 2.6vw, 2.2rem);
+  padding: 1.7rem;
+  border-color: rgba(13,116,130,.25);
+  background: radial-gradient(circle at 50% 50%, rgba(56,189,248,.16), transparent 56%), rgba(255,255,255,.9);
+}
+.practice-diagram { min-height: 420px; }
+.device {
+  width: 170px;
+  min-height: 180px;
+  border: 2px solid rgba(13,116,130,.48);
+  background: linear-gradient(145deg, rgba(255,255,255,.99), rgba(218,241,244,.98));
+  box-shadow: 0 0 0 12px rgba(13,116,130,.06), 0 15px 32px rgba(27,76,87,.16);
+}
+.device i { width: 68px; height: 50px; color: white; font-size: 1.12rem; }
+.device b { color: #102734; font-size: 1.16rem; }
+.device small { max-width: 150px; color: #45636f; font-size: .83rem; }
+.diagram-link { min-width: 90px; font-size: 1.02rem; }
+.diagram-link::before, .diagram-link::after { width: 32px; border-top-width: 3px; }
+.diagram-link em { font-size: .78rem; font-weight: 650; }
+.visual-flow {
+  min-height: 280px;
+  max-width: 1120px;
+  margin: 2.1rem auto 0;
+  gap: 1.4rem;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 50% 50%,rgba(56,189,248,.13),transparent 55%), rgba(255,255,255,.88);
+  border-color: rgba(13,116,130,.2);
+}
+.visual-node { min-width: 190px; min-height: 150px; color: #102734; font-size: 1.25rem; border: 2px solid rgba(13,116,130,.44); background: linear-gradient(145deg,rgba(255,255,255,.99),rgba(218,241,244,.98)); }
+.visual-node span { font-size: .92rem; font-weight: 600; }
+.visual-arrow { font-size: 3.2rem; text-shadow: 0 0 16px rgba(13,116,130,.22); }
+.pose { background: rgba(255,255,255,.9); }
+
+/* El código se agranda sin mover diapositivas: cada fuente completa se desplaza internamente. */
+.big-code pre { font-size: 1.25rem; padding: 1.25rem; }
+.full-source h1 { font-size: 2.65rem; }
+.full-source pre { max-height: 440px; overflow: auto; font-size: .72rem; line-height: 1.35; padding: 1rem; }
+.download-link { background: rgba(231,247,249,.95); color: #16414c; font-size: 1rem; }
+.slidev-layout::after { color: rgba(45,92,103,.55); font-size: .7rem; }
+
+/* Sin imágenes superpuestas: en el tema claro enturbian el fondo y las portadas. */
+.slidev-layout::before,
+.cover .hero-photo { display: none; }
+.cover {
+  background: linear-gradient(135deg, #ffffff 0%, #eefafb 58%, #e2f4f6 100%);
+}
+
+/* El resaltado de Shiki conserva sus colores; solo se fija un panel claro y desplazable. */
+.full-source pre,
+.full-source .shiki {
+  display: block;
+  width: 100%;
+  height: 470px;
+  max-height: 470px;
+  overflow: auto !important;
+  overscroll-behavior: contain;
+  white-space: pre;
+  background: #f8fcfd !important;
+  color: #102734 !important;
+}

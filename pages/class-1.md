@@ -4,8 +4,6 @@ class: cover
 routeAlias: inicio
 ---
 
-<img class="hero-photo" src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1800&q=80" alt="Circuito electrónico">
-
 <div class="eyebrow">Clase 1 · 120 minutos</div>
 
 # Del circuito al <span class="accent">software</span>
@@ -150,19 +148,20 @@ server.begin();
 <p class="small muted">No es código para copiar aislado: el programa entero está en la siguiente diapositiva y en la descarga.</p>
 
 ---
-layout: default
-class: full-source
----
 
 # Copia y pega · ESP32 servidor web completo
 
+<div class="full-source">
+
 <<< @/snippets/esp32-http-server.cpp
+
+</div>
 
 ---
 
 # Práctica 1 · página para un circuito
 
-<div class="iot-grid cols-2 mt-5"><div class="terminal"><span class="prompt">Instala una vez</span><br>1. Arduino IDE<br>2. Gestor de placas: <b>esp32 by Espressif Systems</b><br>3. Biblioteca: <b>DHT sensor library</b> de Adafruit<br>4. Biblioteca: <b>Adafruit Unified Sensor</b><br><br><span class="prompt">No instales Node ni npm aquí.</span><br>El ESP32 es el servidor web.</div><div class="iot-card cyan"><h3>Conexión y prueba</h3><p><b>DHT:</b> DATA → GPIO 4; VCC → 3.3 V; GND → GND.<br><br><b>LED:</b> usa el LED integrado del GPIO 2.<br><br><b>Navegador:</b> abre <code>http://IP_DEL_ESP32</code> que aparece en el monitor serie.</p></div></div>
+<div class="iot-grid cols-2 mt-5"><div class="terminal"><span class="prompt">Instala una vez</span><br>1. Arduino IDE<br>2. Gestor de placas: <b>esp32 by Espressif Systems</b><br><br><span class="prompt">No instales Node, npm ni bibliotecas de sensor.</span><br>El ESP32 es el servidor web y simula los datos.</div><div class="iot-card cyan"><h3>Conexión y prueba</h3><p><b>Sin DHT:</b> el programa genera temperatura y humedad aleatorias para practicar.<br><br><b>LED:</b> usa el LED integrado del GPIO 2.<br><br><b>Navegador:</b> abre <code>http://IP_DEL_ESP32</code> que aparece en el monitor serie.</p></div></div>
 
 <p class="lead mt-6">Copia el programa del ESP32, cambia Wi‑Fi, súbelo y abre la IP del ESP32. La página ya viaja dentro del programa.</p>
 
@@ -223,41 +222,9 @@ POST /api/telemetry
 
 ---
 
-# Opción A · instalar y levantar Node + Express
-
-<div class="iot-grid cols-2 mt-4"><div class="terminal"><span class="prompt">1.</span> Instala Node.js LTS<br><span class="prompt">2.</span> cd examples/http-node<br><span class="prompt">3.</span> npm install express<br><span class="prompt">4.</span> node server.js<br><br>Servidor: http://IP_DEL_PC:3000</div><div class="big-code">
-
-```js
-app.post('/api/telemetry', (req, res) => {
-  console.log(req.body)
-  res.json({ accepted: true })
-})
-```
-
-</div></div>
-
-<p class="small muted mt-4"><code>npm install express</code> descarga exactamente el paquete <strong>Express</strong>, que recibe los datos del ESP32 y entrega la página web.</p>
-
----
-
-# Opción B · instalar y levantar Python + Flask
-
-<div class="iot-grid cols-2 mt-4"><div class="terminal"><span class="prompt">1.</span> Instala Python 3<br><span class="prompt">2.</span> cd examples/http-python<br><span class="prompt">3.</span> pip install flask<br><span class="prompt">4.</span> flask --app app run --host 0.0.0.0<br><br>Servidor: http://IP_DEL_PC:5000</div><div class="big-code">
-
-```python
-@app.post("/api/telemetry")
-def telemetry():
-    print(request.get_json())
-    return {"accepted": True}
-```
-
-</div></div>
-
----
-
 # Objetivo de la práctica 2 · telemetría HTTP + botón LED
 
-<div class="practice-diagram"><div class="device board"><i>ESP</i><b>ESP32</b><small>número aleatorio<br>cada 5 segundos</small></div><div class="diagram-link">POST<br><em>telemetría</em></div><div class="device server"><i>▣</i><b>Servidor Node</b><small>recibe y guarda</small></div><div class="diagram-link bidirectional">página web<br><em>botón + datos</em></div><div class="device laptop"><i>⌘</i><b>Navegador</b><small>ve el número<br>enciende el LED</small></div></div>
+<div class="practice-diagram"><div class="device board"><i>ESP</i><b>ESP32</b><small>número aleatorio<br>cada 5 segundos</small></div><div class="diagram-link">POST<br><em>telemetría</em></div><div class="device server"><i>▣</i><b>Servidor</b><small>Node o Python</small></div><div class="diagram-link bidirectional">página web<br><em>botón + datos</em></div><div class="device laptop"><i>⌘</i><b>Navegador</b><small>ve el número<br>enciende el LED</small></div></div>
 
 ---
 
@@ -277,23 +244,123 @@ String json = "{\"temperatureC\":" + String(fakeTemperature) + "}";
 
 ---
 
-layout: default
-class: full-source
----
-
 # Copia y pega · ESP32 completo
+
+<div class="full-source">
 
 <<< @/snippets/esp32-http-random-sensor.cpp
 
+</div>
+
 ---
 
-layout: default
-class: full-source
+# Opción A · instalar y levantar Node + Express
+
+<div class="iot-grid cols-2 mt-4"><div class="terminal"><span class="prompt">1.</span> Instala Node.js LTS<br><span class="prompt">2.</span> cd examples/http-node<br><span class="prompt">3.</span> npm install express<br><span class="prompt">4.</span> node server.js<br><br>Servidor: http://IP_DEL_PC:3000</div><div class="big-code">
+
+```js
+app.post('/api/telemetry', (req, res) => {
+  console.log(req.body)
+  res.json({ accepted: true })
+})
+```
+
+</div></div>
+
+<p class="small muted mt-4"><code>npm install express</code> descarga exactamente el paquete <strong>Express</strong>, que recibe los datos del ESP32 y entrega la página web.</p>
+
 ---
 
 # Copia y pega · servidor Node completo
 
-<<< @/examples/http-node/server.js
+<div class="full-source">
+
+```js
+import express from 'express'
+
+const app = express()
+const port = Number(process.env.PORT ?? 3000)
+let latest = null
+let ledOn = false
+
+app.use(express.json({ limit: '8kb' }))
+app.use(express.static('public'))
+app.use((_, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*') // Solo laboratorio local.
+  next()
+})
+
+app.get('/api/telemetry/latest', (_, res) => latest ? res.json(latest) : res.status(404).json({ error: 'no_data' }))
+app.post('/api/telemetry', (req, res) => {
+  const { deviceId, temperatureC, humidityPct, rssi } = req.body ?? {}
+  if (typeof deviceId !== 'string' || typeof temperatureC !== 'number' || typeof humidityPct !== 'number') {
+    return res.status(400).json({ error: 'invalid_payload' })
+  }
+  latest = { deviceId, temperatureC, humidityPct, rssi, receivedAt: new Date().toISOString() }
+  console.log('telemetry', latest)
+  res.status(201).json({ accepted: true, latest })
+})
+
+app.post('/api/control/toggle', (_, res) => {
+  ledOn = !ledOn
+  res.json({ ledOn })
+})
+app.get('/api/control', (_, res) => res.json({ ledOn }))
+
+app.listen(port, '0.0.0.0', () => console.log(`API lista en http://0.0.0.0:${port}`))
+```
+
+</div>
+
+---
+
+# Opción B · instalar y levantar Python + Flask
+
+<div class="iot-grid cols-2 mt-4"><div class="terminal"><span class="prompt">1.</span> Instala Python 3<br><span class="prompt">2.</span> cd examples/http-python<br><span class="prompt">3.</span> pip install flask<br><span class="prompt">4.</span> flask --app app run --host 0.0.0.0<br><br>Servidor: http://IP_DEL_PC:5000</div><div class="big-code">
+
+```python
+@app.post("/api/telemetry")
+def telemetry():
+    print(request.get_json())
+    return {"accepted": True}
+```
+
+</div></div>
+
+<p class="small muted mt-4">Flask entrega la página de telemetría y control en <code>http://IP_DEL_PC:5000</code>.</p>
+
+---
+
+# Copia y pega · servidor Flask completo
+
+<div class="full-source">
+
+<<< @/examples/http-python/app.py
+
+</div>
+
+---
+
+# Página HTML · telemetría y control
+
+<p class="small muted">Con Node o Flask activo, abre su puerto: <code>:3000</code> para Node o <code>:5000</code> para Flask.</p>
+
+<div class="full-source">
+
+```html
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Telemetría HTTP</title>
+<style>body{font:18px system-ui;max-width:700px;margin:40px auto;padding:0 18px;background:#071018;color:#e6f2f7}pre{padding:20px;background:#102532;border-radius:14px}button{padding:12px 18px;border-radius:9px;border:1px solid #5eead4;background:#164e50;color:white;font-size:18px;cursor:pointer}</style>
+<h1>Telemetría HTTP</h1><p>Estado LED: <b id="led">--</b></p><button onclick="toggle()">Cambiar LED</button><h2>Último dato del ESP32</h2><pre id="data">Esperando datos…</pre>
+<script>
+async function refresh(){try{const r=await fetch('/api/telemetry/latest');data.textContent=JSON.stringify(await r.json(),null,2);const c=await fetch('/api/control');led.textContent=(await c.json()).ledOn?'ENCENDIDO':'APAGADO'}catch{data.textContent='El ESP32 aún no envió datos'}}
+async function toggle(){await fetch('/api/control/toggle',{method:'POST'});refresh()}
+refresh();setInterval(refresh,3000)
+</script></html>
+```
+
+</div>
 
 ---
 
@@ -302,24 +369,6 @@ class: full-source
 <div class="browser-preview"><div class="browser-bar"><span></span><span></span><span></span><b>Telemetría HTTP</b></div><div class="browser-content"><div><h2>Telemetría HTTP</h2><p>Estado LED: <b style="color:#0f766e">ENCENDIDO</b></p><button>Cambiar LED</button></div><div class="arm-values"><b>Temperatura</b><strong>24.6 °C</strong><b>Humedad</b><strong>51 %</strong><b>ESP32</b><strong>esp32-01</strong></div></div></div>
 
 <p class="lead mt-5">La página consulta el último JSON que mandó el ESP32 y envía una orden HTTP al presionar el botón.</p>
-
----
-layout: default
-class: full-source
----
-
-# Copia y pega · página web HTTP completa
-
-<<< @/examples/http-node/public/index.html
-
----
-layout: default
-class: full-source
----
-
-# Copia y pega · servidor Python completo
-
-<<< @/examples/http-python/app.py
 
 ---
 

@@ -1,8 +1,13 @@
 from datetime import datetime, timezone
-from flask import Flask, jsonify, request
+from pathlib import Path
 
+from flask import Flask, jsonify, request, send_from_directory
+
+# La misma página HTML que entrega Node también se utiliza con Flask.
+SHARED_WEB_DIR = Path(__file__).resolve().parents[1] / "http-node" / "public"
 app = Flask(__name__)
 latest = None
+led_on = False
 
 
 @app.after_request
@@ -13,9 +18,7 @@ def allow_lab_origin(response):
 
 @app.get("/")
 def index():
-    return f"""<!doctype html><html lang='es'><meta http-equiv='refresh' content='3'>
-    <style>body{{font:18px system-ui;max-width:700px;margin:50px auto;background:#071018;color:#e6f2f7}}pre{{padding:20px;background:#102532;border-radius:14px}}</style>
-    <h1>Telemetría IoT</h1><pre>{latest}</pre></html>"""
+    return send_from_directory(SHARED_WEB_DIR, "index.html")
 
 
 @app.get("/api/telemetry/latest")
@@ -33,3 +36,15 @@ def telemetry():
     latest = {**payload, "receivedAt": datetime.now(timezone.utc).isoformat()}
     print("telemetry", latest, flush=True)
     return jsonify(accepted=True, latest=latest), 201
+
+
+@app.post("/api/control/toggle")
+def toggle_led():
+    global led_on
+    led_on = not led_on
+    return jsonify(ledOn=led_on)
+
+
+@app.get("/api/control")
+def get_control():
+    return jsonify(ledOn=led_on)

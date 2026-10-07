@@ -9,7 +9,7 @@ transition: slide-left
 drawings:
   persist: false
 mdc: true
-colorSchema: dark
+colorSchema: light
 aspectRatio: 16/9
 canvasWidth: 1280
 ---

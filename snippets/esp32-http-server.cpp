@@ -1,16 +1,17 @@
 #include <WiFi.h>
 #include <WebServer.h>
-#include <DHT.h>
 
 const char* WIFI_SSID = "TU_WIFI";
 const char* WIFI_PASSWORD = "TU_CLAVE";
 constexpr uint8_t LED_PIN = 2;
-constexpr uint8_t DHT_PIN = 4;
-constexpr uint8_t DHT_TYPE = DHT22; // Cambia a DHT11 si corresponde.
 
 WebServer server(80);
-DHT dht(DHT_PIN, DHT_TYPE);
 bool ledOn = false;
+
+// Simulación para practicar sin un DHT conectado.
+// Si después instalas un DHT, estos valores se reemplazan por las lecturas del sensor.
+float simulatedTemperatureC() { return random(180, 351) / 10.0f; }
+float simulatedHumidityPct() { return random(350, 851) / 10.0f; }
 
 const char PAGE[] PROGMEM = R"HTML(
 <!doctype html><html lang="es"><meta name="viewport" content="width=device-width">
@@ -31,7 +32,7 @@ void sendJson(int code, const String& body) {
 void setup() {
   Serial.begin(115200);
   pinMode(LED_PIN, OUTPUT);
-  dht.begin();
+  randomSeed(micros()); // Semilla para que cada lectura simulada cambie.
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
@@ -42,9 +43,11 @@ void setup() {
 
   server.on("/", HTTP_GET, [] { server.send_P(200, "text/html", PAGE); });
   server.on("/api/status", HTTP_GET, [] {
+    const float temperatureC = simulatedTemperatureC(); // Antes: dht.readTemperature().
+    const float humidityPct = simulatedHumidityPct();   // Antes: dht.readHumidity().
     String json = "{\"ledOn\":" + String(ledOn ? "true" : "false") +
-      ",\"temperatureC\":" + String(dht.readTemperature(), 1) +
-      ",\"humidityPct\":" + String(dht.readHumidity(), 1) +
+      ",\"temperatureC\":" + String(temperatureC, 1) +
+      ",\"humidityPct\":" + String(humidityPct, 1) +
       ",\"rssi\":" + String(WiFi.RSSI()) +
       ",\"uptimeMs\":" + String(millis()) + "}";
     sendJson(200, json);

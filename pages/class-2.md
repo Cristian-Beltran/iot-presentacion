@@ -4,8 +4,6 @@ class: cover
 routeAlias: clase-2
 ---
 
-<img class="hero-photo" src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1800&q=80" alt="Tecnología industrial">
-
 <div class="eyebrow">Clase 2 · 120 minutos</div>
 
 # Muchos equipos, un <span class="accent">mensajero</span>

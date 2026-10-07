@@ -335,3 +335,17 @@
   background: #f8fcfd !important;
   color: #102734 !important;
 }
+
+/* Proyección: las etiquetas secundarias también deben leerse desde lejos. */
+.tiny { font-size: 1rem; }
+.small { font-size: 1.16rem; }
+.iot-card p { font-size: 1.28rem; }
+.terminal { font-size: 1.08rem; }
+.flow-step small { font-size: .94rem; }
+.device small { font-size: 1rem; }
+.diagram-link em { font-size: .92rem; }
+.metric-label { font-size: .98rem; }
+.visual-node span { font-size: 1.04rem; }
+.robot-label { font-size: .98rem; }
+.connection-options small { font-size: 1rem; }
+.slidev-layout::after { font-size: .84rem; }

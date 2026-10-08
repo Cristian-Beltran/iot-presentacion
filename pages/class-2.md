@@ -232,24 +232,23 @@ class: full-source
 
 ---
 
-# HiveMQ Cloud · broker gratuito administrado
+# HiveMQ Public Broker · pruebas sin cuenta
 
-<div class="iot-grid cols-2 mt-4"><div class="media-panel"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80" alt="Nube y conexiones"><span class="media-label">El broker vive en Internet</span></div><div class="v-center"><p class="lead">HiveMQ Cloud ofrece un plan gratuito para crear un broker sin instalar un servidor.</p><div class="timeline mt-5"><div class="time">1</div><div class="event">Crear cuenta y cluster gratuito.</div><div class="time">2</div><div class="event">Crear credenciales MQTT.</div><div class="time">3</div><div class="event">Copiar host, puerto TLS, usuario y clave.</div></div></div></div>
+<div class="iot-grid cols-2 mt-4"><div class="media-panel"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80" alt="Nube y conexiones"><span class="media-label">Broker público en Internet</span></div><div class="v-center"><p class="lead">Para practicar usaremos el broker público de HiveMQ: no necesitas crear cuenta, clúster ni credenciales.</p><div class="timeline mt-5"><div class="time">1</div><div class="event">Host: <code>broker.hivemq.com</code></div><div class="time">2</div><div class="event">ESP32: MQTT TCP por el puerto <code>1883</code>.</div><div class="time">3</div><div class="event">Página web: WebSocket por el puerto <code>8000</code>.</div><div class="time">+</div><div class="event">Puertos TLS disponibles: TCP <code>8883</code> y WebSocket <code>8884</code>; no se usan en esta prueba.</div></div></div></div>
 
 ---
 
-# Código ESP32 para HiveMQ Cloud
+# Código ESP32 para HiveMQ Public Broker
 
 <div class="big-code">
 
 ```cpp
-WiFiClientSecure network;
-network.setInsecure(); // Solo para la práctica.
+WiFiClient network;
 PubSubClient mqtt(network);
 
-mqtt.setServer("TU_CLUSTER.s1.eu.hivemq.cloud", 8883);
-mqtt.connect("esp32-alumno", "USUARIO", "CLAVE");
-mqtt.subscribe("clase/control");
+mqtt.setServer("broker.hivemq.com", 1883);
+mqtt.connect("esp32-alumno-01");
+mqtt.subscribe("univalle/iot/grupo-01/led/control");
 ```
 
 </div>
@@ -261,7 +260,7 @@ layout: default
 class: full-source
 ---
 
-# Copia y pega · ESP32 + HiveMQ Cloud completo
+# Copia y pega · ESP32 + HiveMQ Public Broker completo
 
 <<< @/snippets/esp32-mqtt-hivemq.cpp
 
@@ -322,14 +321,14 @@ class: section-slide
 
 # Práctica 4 · instalar y conectar el brazo
 
-<div class="iot-grid cols-2 mt-5"><div class="terminal"><span class="prompt">Bibliotecas Arduino IDE</span><br>1. <b>ESP32Servo</b><br>2. <b>PubSubClient</b><br>3. <b>ArduinoJson</b><br>4. <b>WebSockets</b> de Markus Sattler<br><br>Además instala la placa <b>esp32 by Espressif Systems</b>.</div><div class="terminal"><span class="prompt">Señales de servo</span><br>Base → GPIO 13<br>Hombro → GPIO 14<br>Codo → GPIO 25<br>Garra → GPIO 26<br><br><b>Importante:</b> los servos usan fuente externa de 5 V; une GND de fuente y ESP32.</div></div>
+<div class="iot-grid cols-2 mt-5"><div class="terminal"><span class="prompt">Bibliotecas Arduino IDE</span><br>1. <b>ESP32Servo</b><br>2. <b>PubSubClient</b><br>3. <b>ArduinoJson</b><br><br>Además instala la placa <b>esp32 by Espressif Systems</b>.<br><br><b>Broker:</b> <code>broker.hivemq.com:1883</code>, sin cuenta ni contraseña.</div><div class="terminal"><span class="prompt">Señales de servo</span><br>Base → GPIO 13<br>Hombro → GPIO 14<br>Codo → GPIO 25<br>Garra → GPIO 26<br><br><b>Importante:</b> los servos usan fuente externa de 5 V; une GND de fuente y ESP32.</div></div>
 
 ---
 layout: default
 class: full-source
 ---
 
-# Copia y pega · ESP32 completo para el brazo
+# Copia y pega · ESP32 + HiveMQ Public Broker para el brazo
 
 <<< @/snippets/esp32-robot-arm-mqtt.cpp
 
@@ -337,16 +336,16 @@ class: full-source
 
 # Así se ve la página de control del brazo
 
-<div class="browser-preview"><div class="browser-bar"><span></span><span></span><span></span><b>Panel · Brazo robótico</b></div><div class="browser-content"><div><h2>Elegir pose</h2><button>Inicio</button> <button>Bajar</button> <button>Tomar</button> <button>Soltar</button></div><div class="arm-values"><b>Base</b><input type="range" value="50"><b>Hombro</b><input type="range" value="65"><b>Codo</b><input type="range" value="35"><b>Garra</b><input type="range" value="20"></div></div></div>
+<div class="browser-preview"><div class="browser-bar"><span></span><span></span><span></span><b>Panel · Brazo robótico</b></div><div class="browser-content"><div><h2>Elegir pose</h2><button>Inicio</button> <button>Bajar</button> <button>Tomar</button> <button>Soltar</button><h3 class="mt-4">Mover manualmente</h3><div class="arm-values"><b>Base · 90°</b><input type="range" min="0" max="180" value="90"><b>Hombro · 90°</b><input type="range" min="0" max="180" value="90"><b>Codo · 90°</b><input type="range" min="0" max="180" value="90"></div></div><div class="arm-values"><b>Posición actual</b><strong>Base: 90°</strong><strong>Hombro: 90°</strong><strong>Codo: 90°</strong><b>Estado de garra</b><strong>40° · CERRADA</strong></div></div></div>
 
-<p class="lead mt-5">Cada botón publica una pose JSON al tópico del brazo; el ESP32 mueve los cuatro servos y publica su estado.</p>
+<p class="lead mt-5">Los botones controlan la garra dentro de cada pose; la web muestra en tiempo real la posición de los tres servos del brazo y el estado de la garra.</p>
 
 ---
 layout: default
 class: full-source
 ---
 
-# Copia y pega · página web de control del brazo
+# Copia y pega · página web del brazo para HiveMQ Public Broker
 
 <<< @/examples/robot-arm-web/index.html
 
@@ -355,3 +354,11 @@ class: full-source
 # Lo que ya puedes crear
 
 <div class="visual-flow"><div class="visual-node">🔌<span>circuito</span></div><div class="visual-arrow">+</div><div class="visual-node">📶<span>Wi‑Fi</span></div><div class="visual-arrow">+</div><div class="visual-node">🌐<span>software</span></div><div class="visual-arrow">+</div><div class="visual-node">📬<span>MQTT</span></div><div class="visual-arrow">=</div><div class="visual-node">✨<span>proyecto conectado</span></div></div>
+
+---
+
+# Tarea 2 · brazo robótico con broker público
+
+<div class="iot-grid cols-3 mt-6"><div class="iot-card cyan"><h3>1. Elige tu ID</h3><p>Usa un ID único por grupo, por ejemplo <code>grupo-01</code>, tanto en el ESP32 como en la página.</p></div><div class="iot-card green"><h3>2. Programa el ESP32</h3><p>Conéctalo a <code>broker.hivemq.com:1883</code> para controlar los cuatro servos y publicar posición y garra.</p></div><div class="iot-card blue"><h3>3. Conecta la web</h3><p>Abre la página, escribe el mismo ID y controla el brazo desde WebSocket en el puerto <code>8000</code>.</p></div></div>
+
+<div class="callout mt-8"><p><strong>Entrega:</strong> demostración del panel moviendo los cuatro servos y mostrando en tiempo real los tópicos de posición y estado de la garra.</p></div>

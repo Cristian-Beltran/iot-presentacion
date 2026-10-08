@@ -7,10 +7,10 @@ Los ejemplos siguen el orden de la presentación: primero conexión Wi‑Fi y HT
 - `esp32-http-random-sensor`: práctica sin sensor físico; manda números aleatorios a Node y consulta el botón de LED.
 - `http-node` y `http-python`: servidores sencillos que reciben telemetría.
 - `esp32-mqtt-led-dht`: ESP32 que publica datos y recibe control por MQTT.
-- `esp32-mqtt-hivemq`: práctica con un cluster gratuito de HiveMQ Cloud y TLS.
+- `esp32-mqtt-hivemq`: práctica con el broker público de HiveMQ, sin cuenta ni credenciales.
 - `mosquitto`: broker local con MQTT TCP y MQTT sobre WebSockets.
 - `esp32-servo-web`: brazo robótico de cuatro servos controlado desde una web local.
-- `esp32-robot-arm-mqtt`: brazo robótico controlado por MQTT; es el punto de partida del proyecto final.
+- `esp32-robot-arm-mqtt`: brazo robótico de cuatro servos controlado por MQTT con el broker público de HiveMQ; es el punto de partida del proyecto final.
 
 Antes de compilar, reemplaza SSID, claves, IP/host y GPIO por los de tu montaje.
 

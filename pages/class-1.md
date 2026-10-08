@@ -256,7 +256,7 @@ String json = "{\"temperatureC\":" + String(fakeTemperature) + "}";
 
 # Opción A · instalar y levantar Node + Express
 
-<div class="iot-grid cols-2 mt-4"><div class="terminal"><span class="prompt">1.</span> Instala Node.js LTS<br><span class="prompt">2.</span> cd examples/http-node<br><span class="prompt">3.</span> npm install express<br><span class="prompt">4.</span> node server.js<br><br>Servidor: http://IP_DEL_PC:3000</div><div class="big-code">
+<div class="iot-grid cols-2 mt-4"><div class="terminal"><span class="prompt">1.</span> Instala Node.js LTS<br><span class="prompt">2.</span> cd examples/http-node<br><span class="prompt">3.</span> npm init<br><span class="prompt">4.</span> npm pkg set type=module<br><span class="prompt">5.</span> npm install express<br><span class="prompt">6.</span> node server.js<br><br>Servidor: http://IP_DEL_PC:3000</div><div class="big-code">
 
 ```js
 app.post('/api/telemetry', (req, res) => {
@@ -383,3 +383,11 @@ refresh();setInterval(refresh,3000)
 <div class="iot-grid cols-3 mt-7"><div class="iot-card cyan"><h3>Wi‑Fi</h3><p>Conecta el ESP32 a otros equipos.</p></div><div class="iot-card green"><h3>Servidor</h3><p>El ESP32 puede mostrar una página.</p></div><div class="iot-card amber"><h3>Cliente</h3><p>También puede enviar datos a un sistema.</p></div></div>
 
 <p class="lead mt-8">En la clase 2 usaremos MQTT cuando más de una aplicación necesita hablar con el dispositivo.</p>
+
+---
+
+# Tarea 1 · ESP32 servidor con DHT real
+
+<div class="iot-grid cols-2 mt-6"><div class="iot-card cyan"><h3>Repite la práctica 1</h3><p>Conserva el ESP32 como servidor web: debe entregar su propia página al abrir la IP desde el navegador.</p></div><div class="iot-card green"><h3>Usa un DHT real</h3><p>Reemplaza los valores simulados por la temperatura y humedad medidas por tu sensor DHT.</p></div></div>
+
+<div class="callout mt-8"><p><strong>Entrega:</strong> evidencia de la página del ESP32 mostrando datos reales del DHT y el programa que lee el sensor y sirve la página web.</p></div>

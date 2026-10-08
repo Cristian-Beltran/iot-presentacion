@@ -1,18 +1,15 @@
 #include <WiFi.h>
-#include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 
-// Completa estos datos al crear tu cluster gratuito en HiveMQ Cloud.
+// Broker público de pruebas: no requiere cuenta ni contraseña.
 const char* WIFI_SSID = "TU_WIFI";
 const char* WIFI_PASSWORD = "TU_CLAVE";
-const char* MQTT_HOST = "TU_CLUSTER.s1.eu.hivemq.cloud";
-const int MQTT_PORT = 8883;
-const char* MQTT_USER = "TU_USUARIO";
-const char* MQTT_PASS = "TU_CLAVE_MQTT";
-const char* CONTROL_TOPIC = "clase/control";
-const char* TELEMETRY_TOPIC = "clase/telemetry";
+const char* MQTT_HOST = "broker.hivemq.com";
+const int MQTT_PORT = 1883;
+const char* CONTROL_TOPIC = "univalle/iot/grupo-01/led/control";
+const char* TELEMETRY_TOPIC = "univalle/iot/grupo-01/led/telemetry";
 
-WiFiClientSecure network;
+WiFiClient network;
 PubSubClient mqtt(network);
 unsigned long lastPublish = 0;
 
@@ -26,7 +23,8 @@ void onMessage(char* topic, byte* payload, unsigned int length) {
 
 void connectMqtt() {
   while (!mqtt.connected()) {
-    if (mqtt.connect("esp32-hivemq-class", MQTT_USER, MQTT_PASS)) mqtt.subscribe(CONTROL_TOPIC);
+    String clientId = String("esp32-clase-") + String((uint32_t)ESP.getEfuseMac(), HEX);
+    if (mqtt.connect(clientId.c_str())) mqtt.subscribe(CONTROL_TOPIC);
     else delay(2000);
   }
 }
@@ -35,7 +33,6 @@ void setup() {
   Serial.begin(115200); pinMode(2, OUTPUT);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) delay(300);
-  network.setInsecure(); // Para clase: en un proyecto real valida el certificado.
   mqtt.setServer(MQTT_HOST, MQTT_PORT);
   mqtt.setCallback(onMessage);
 }

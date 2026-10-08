@@ -1,14 +1,81 @@
 <!doctype html>
-<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Control de brazo MQTT</title>
-<style>body{font:17px system-ui;max-width:720px;margin:35px auto;padding:0 18px;background:#071018;color:#e6f2f7}input,button{font:inherit;padding:9px;border-radius:8px;border:1px solid #5eead4}input{background:#102734;color:white}button{background:#5eead4;color:#05202a;font-weight:800;margin:4px}.card{margin:16px 0;padding:16px;border:1px solid #275565;border-radius:14px}label{display:block;margin:10px 0}label input{width:280px;padding:0}</style>
-<h1>Control del brazo</h1><p>Conecta a un broker MQTT por WebSocket y controla cuatro servos.</p>
-<input id="host" placeholder="broker.example.com"><input id="user" placeholder="usuario"><input id="pass" type="password" placeholder="clave"><button onclick="connect()">Conectar</button><p id="status">Sin conexión</p>
-<div class="card"><h2>Poses</h2><button onclick="pose('inicio')">Inicio</button><button onclick="pose('bajar')">Bajar</button><button onclick="pose('tomar')">Tomar</button><button onclick="pose('soltar')">Soltar</button></div>
-<div class="card"><h2>Ángulos manuales</h2><label>Base <input id="base" type="range" min="0" max="180" value="90" oninput="joint('base',this.value)"></label><label>Hombro <input id="hombro" type="range" min="0" max="180" value="90" oninput="joint('hombro',this.value)"></label><label>Codo <input id="codo" type="range" min="0" max="180" value="90" oninput="joint('codo',this.value)"></label><label>Garra <input id="garra" type="range" min="0" max="180" value="40" oninput="joint('garra',this.value)"></label></div>
-<pre id="state">Estado: esperando</pre>
-<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script><script>
-const CONTROL='cristian/robot-arm/robot-arm-01/control', STATUS='cristian/robot-arm/robot-arm-01/status';let client;
-function connect(){client=mqtt.connect(`wss://${host.value}:443`,{username:user.value,password:pass.value});client.on('connect',()=>{status.textContent='Conectado';client.subscribe(STATUS)});client.on('message',(_,m)=>state.textContent=m.toString());client.on('error',()=>status.textContent='Error: revisa host, usuario y clave')}
-function send(data){if(!client?.connected)return alert('Primero conecta al broker');client.publish(CONTROL,JSON.stringify(data))}function pose(name){send({pose:name})}function joint(name,angle){send({joint:name,angle:Number(angle)})}
-</script></html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Control del brazo · HiveMQ Public Broker</title>
+  <style>
+    :root{color-scheme:dark;--bg:#07111f;--panel:#0e2035;--line:#294864;--cyan:#5eead4;--blue:#60a5fa;--text:#e7f3ff;--muted:#9cb4c8;--danger:#fb7185}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;font:16px/1.45 system-ui,sans-serif;color:var(--text);background:radial-gradient(circle at 12% 0,#12375a 0,transparent 33%),var(--bg)}
+    main{width:min(980px,calc(100% - 32px));margin:0 auto;padding:34px 0 50px}.hero{display:flex;gap:18px;align-items:center;margin-bottom:24px}.icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;font-size:30px;background:linear-gradient(135deg,#155e75,#2563eb);box-shadow:0 12px 34px #0005}h1{font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.1;margin:0}h2{font-size:1.1rem;margin:0 0 14px}.subtitle{color:var(--muted);margin:6px 0 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{padding:20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#102942dd,#0b192bdd);box-shadow:0 12px 30px #0003}.wide{grid-column:1/-1}.credentials{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}label{display:grid;gap:6px;color:var(--muted);font-size:.86rem}input{width:100%;border:1px solid #3c617d;border-radius:10px;padding:10px 12px;background:#071827;color:var(--text);font:inherit}input:focus{outline:2px solid var(--cyan);border-color:transparent}button{border:0;border-radius:10px;padding:11px 14px;font:700 .9rem system-ui;cursor:pointer;color:#04212a;background:var(--cyan);transition:transform .15s,filter .15s}button:hover{filter:brightness(1.08);transform:translateY(-1px)}button.secondary{color:var(--text);background:#1d4262}button.danger{color:white;background:#be3451}.connection{display:flex;gap:10px;align-items:center;margin-top:14px}.dot{width:10px;height:10px;border-radius:99px;background:#64748b}.dot.ok{background:#5eead4;box-shadow:0 0 12px #5eead4}.dot.error{background:var(--danger)}#status{color:var(--muted);font-size:.92rem}.poses{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.pose{min-height:76px;color:var(--text);background:#183a56}.pose b,.pose small{display:block}.pose small{font-weight:400;color:#b8d1e3;margin-top:3px}.sliders{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.slider{padding:13px;border-radius:12px;background:#081a2a}.slider-head{display:flex;justify-content:space-between;font-weight:700}.slider-head output{color:var(--cyan)}input[type=range]{padding:0;margin-top:10px;accent-color:var(--cyan)}.state{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.state div{padding:12px;border-radius:12px;text-align:center;background:#081a2a;color:var(--muted);font-size:.8rem}.state strong{display:block;color:var(--text);font-size:1.25rem;margin-top:3px}.note{margin:16px 0 0;color:var(--muted);font-size:.86rem}@media(max-width:720px){.grid{grid-template-columns:1fr}.credentials,.sliders{grid-template-columns:1fr}.poses,.state{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero"><div class="icon">🦾</div><div><h1>Control del brazo robótico</h1><p class="subtitle">ESP32 + 4 servos + broker MQTT público</p></div></header>
+
+    <section class="card">
+      <h2>1. Conecta tu equipo</h2>
+      <div class="credentials">
+        <label>ID de grupo (debe ser igual al del ESP32)<input id="deviceId" value="grupo-01" autocomplete="off"></label>
+        <button id="connectButton" type="button">Conectar</button>
+      </div>
+      <div class="connection"><span id="dot" class="dot"></span><span id="status">Sin conexión</span><button id="testButton" class="secondary" type="button">Probar conexión</button><button id="disconnectButton" class="danger" type="button">Desconectar</button></div>
+      <p class="note">Conecta automáticamente a <code>broker.hivemq.com:8000</code>. Elige un ID distinto por grupo para no controlar otro brazo.</p>
+    </section>
+
+    <div class="grid" style="margin-top:16px">
+      <section class="card wide"><h2>2. Elige una pose</h2><div class="poses"><button class="pose" data-pose="inicio"><b>🏠 Inicio</b><small>Posición segura</small></button><button class="pose" data-pose="bajar"><b>⬇️ Bajar</b><small>Acercarse al objeto</small></button><button class="pose" data-pose="tomar"><b>✊ Tomar</b><small>Cerrar garra</small></button><button class="pose" data-pose="soltar"><b>🖐️ Soltar</b><small>Mover y abrir</small></button></div></section>
+      <section class="card"><h2>3. Ajuste manual</h2><div class="sliders">
+        <label class="slider"><span class="slider-head">Base <output>90°</output></span><input data-joint="base" type="range" min="0" max="180" value="90"></label>
+        <label class="slider"><span class="slider-head">Hombro <output>90°</output></span><input data-joint="hombro" type="range" min="0" max="180" value="90"></label>
+        <label class="slider"><span class="slider-head">Codo <output>90°</output></span><input data-joint="codo" type="range" min="0" max="180" value="90"></label>
+      </div></section>
+      <section class="card"><h2>Estado enviado por el ESP32</h2><div class="state"><div>Base<strong id="baseState">--</strong></div><div>Hombro<strong id="hombroState">--</strong></div><div>Codo<strong id="codoState">--</strong></div><div>Garra<strong id="garraState">--</strong></div></div><p class="note" id="lastMessage">Esperando los tópicos de posición y garra.</p></section>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script>
+    let client;
+    let topics;
+    const $ = id => document.getElementById(id);
+    function setStatus(message, state = '') { $('status').textContent = message; $('dot').className = `dot ${state}`; }
+    function publish(data) {
+      if (!client?.connected) return setStatus('Primero conecta al broker.', 'error');
+      client.publish(topics.control, JSON.stringify(data));
+      setStatus('Mensaje enviado al brazo.', 'ok');
+    }
+    function connect() {
+      const deviceId = $('deviceId').value.trim().replace(/[^a-zA-Z0-9_-]/g, '-');
+      if (!deviceId) return setStatus('Escribe un ID de grupo.', 'error');
+      topics = {
+        control: `univalle/iot/${deviceId}/robot-arm/control`,
+        position: `univalle/iot/${deviceId}/robot-arm/status/position`,
+        gripper: `univalle/iot/${deviceId}/robot-arm/status/gripper`,
+      };
+      client?.end(true);
+      setStatus('Conectando con el broker público…');
+      client = mqtt.connect('ws://broker.hivemq.com:8000/mqtt', {
+        clientId: `univalle-web-${deviceId}-${Math.random().toString(16).slice(2, 8)}`,
+        reconnectPeriod: 3000,
+        connectTimeout: 10000,
+      });
+      client.on('connect', () => { client.subscribe([topics.position, topics.gripper]); setStatus(`Conectado como ${deviceId}.`, 'ok'); publish({ action: 'ping' }); });
+      client.on('reconnect', () => setStatus('Reconectando…'));
+      client.on('error', error => setStatus(`Error de conexión: ${error.message}`, 'error'));
+      client.on('message', (topic, raw) => { try { updateState(topic, JSON.parse(raw.toString())); } catch { $('lastMessage').textContent = raw.toString(); } });
+    }
+    function updateState(topic, data) {
+      if (topic === topics.position) ['base', 'hombro', 'codo'].forEach(joint => { if (Number.isFinite(data[joint])) { $(`${joint}State`).textContent = `${data[joint]}°`; const slider = document.querySelector(`[data-joint="${joint}"]`); slider.value = data[joint]; slider.previousElementSibling.querySelector('output').textContent = `${data[joint]}°`; } });
+      if (topic === topics.gripper && Number.isFinite(data.angle)) $('garraState').textContent = `${data.angle}° ${data.closed ? 'CERRADA' : 'ABIERTA'}`;
+      $('lastMessage').textContent = `Estado actualizado: ${topic.endsWith('position') ? 'posición del brazo' : 'garra'}.`;
+    }
+    $('connectButton').addEventListener('click', connect);
+    $('disconnectButton').addEventListener('click', () => { client?.end(true); client = undefined; setStatus('Desconectado.'); });
+    $('testButton').addEventListener('click', () => publish({ action: 'ping' }));
+    document.querySelectorAll('[data-pose]').forEach(button => button.addEventListener('click', () => publish({ pose: button.dataset.pose })));
+    document.querySelectorAll('[data-joint]').forEach(slider => { slider.addEventListener('input', () => slider.previousElementSibling.querySelector('output').textContent = `${slider.value}°`); slider.addEventListener('change', () => publish({ joint: slider.dataset.joint, angle: Number(slider.value) })); });
+  </script>
+</body>
+</html>
